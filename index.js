@@ -24,9 +24,18 @@ async function appendPEMFromUrl(url) {
 }
 
 async function build() {
+    // Ensure dist directory
+    if (!fs.existsSync('dist')){
+        fs.mkdirSync('dist');
+    }
+
     // clear file if exists
     fs.writeFileSync(bundleFileName, '');
+    
+    // Add intermediate certificates
     await appendPEMFromUrl('https://ccadb-public.secure.force.com/mozilla/PublicAllIntermediateCertsWithPEMCSV');
+
+    // Add root certificates
     await appendPEMFromUrl('https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportPEMCSV');
 }
 
