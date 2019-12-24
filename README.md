@@ -6,13 +6,13 @@ If you are trying to connect to a secure website via nodejs. You may run into er
 
 [UNABLE_TO_VERIFY_LEAF_SIGNATURE](https://stackoverflow.com/questions/20082893/unable-to-verify-leaf-signature) 
 
-[unable to verify the first certificate](https://stackoverflow.com/questions/31673587/error-unable-to-verify-the-first-certificate-in-nodejs)
+[Unable to verify the first certificate](https://stackoverflow.com/questions/31673587/error-unable-to-verify-the-first-certificate-in-nodejs)
 
 It may be due to a couple of reasons.
 The Root CA certificate is missing in nodejs
-Or the site does not correctly install the intermediate certificates
+Or the site does not correctly install the intermediate certificates.
 
-Typically you encounter these at the last minute, and usually, the server is not in your control; hence you cannot even modify the certificates, and it is challenging to change code at that time.
+Typically you encounter these at the last minute, and usually, the server is not in your control; hence you cannot modify the certificate installation, and it is challenging to change code at that time.
 
 ### Node js added an Environment variable to address this issue:
 
@@ -24,8 +24,8 @@ When set, the well known "root" CAs (like VeriSign) will be extended with the ex
 However, it is cumbersome to create the PEM file for missing certificates manually and can be a security issue.
 
 ### This module downloads and creates a PEM file from https://www.ccadb.org/resources (Common CA Database) used by Mozilla 
-https://wiki.mozilla.org/CA/Included_Certificates
-https://wiki.mozilla.org/CA/Intermediate_Certificates
+* https://wiki.mozilla.org/CA/Included_Certificates
+* https://wiki.mozilla.org/CA/Intermediate_Certificates
 
 It generates three different bundles that can be used based on your needs:
 * Intermediate certificates only bundle ca_intermediate_bundle.pem
