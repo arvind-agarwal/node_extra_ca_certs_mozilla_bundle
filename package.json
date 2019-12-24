@@ -1,6 +1,6 @@
 {
   "name": "node_extra_ca_certs_mozilla_bundle",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,9 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/arvind-agarwal/node_extra_ca_certs_mozilla_bundle.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["NODE_EXTRA_CA_CERTS","Mozilla certificates","CA","certs","certificate error","UNABLE_TO_VERIFY_LEAF_SIGNATURE","CERT_UNTRUSTED","Unable to verify the first certificate","pem","pem certificate","pem certificates"],
+  "author": "Arvind Agarwal",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/arvind-agarwal/node_extra_ca_certs_mozilla_bundle/issues"
   },

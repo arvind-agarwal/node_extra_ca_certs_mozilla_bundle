@@ -21,16 +21,16 @@ When set, the well known "root" CAs (like VeriSign) will be extended with the ex
 
 *NOTE: This environment variable is ignored when node runs as setuid root or has Linux file capabilities set.*
 
-However, it is cumbersome to create the PEM file for missing certificates manually and can be a security issue.
+However, it is cumbersome to create the PEM file for missing certificates manually and it can be a security issue if untrusted certificates are accidentally included.
 
 ### This module downloads and creates a PEM file from https://www.ccadb.org/resources (Common CA Database) used by Mozilla 
 * https://wiki.mozilla.org/CA/Included_Certificates
 * https://wiki.mozilla.org/CA/Intermediate_Certificates
 
 It generates three different bundles that can be used based on your needs:
-* Intermediate certificates only bundle ca_intermediate_bundle.pem
-* Root only certificates bundle ca_root_bundle.pem
-* Intermediate and Root certificates bundle ca_intermediate_root_bundle.pem
+* Intermediate certificates only bundle `ca_intermediate_bundle.pem`
+* Root only certificates bundle `ca_root_bundle.pem`
+* Intermediate and Root certificates bundle `ca_intermediate_root_bundle.pem`
 
 You can use any of the above bundles with NODE_EXTRA_CA_CERTS.
 
