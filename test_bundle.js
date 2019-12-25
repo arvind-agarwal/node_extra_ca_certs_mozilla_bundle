@@ -1,7 +1,6 @@
 const request = require('request-promise-native');
 
 async function test(){
-    // const r = await request.get("https://ngdevdms.imanagelabs.dev");
     if(!process.env.NODE_EXTRA_CA_CERTS) console.log('Env variable NODE_EXTRA_CA_CERTS not found! Please rerun with \ncross-env NODE_EXTRA_CA_CERTS=dist/ca_intermediate_root_bundle.pem node test_bundle.js')
     const r = await request.get("https://incomplete-chain.badssl.com/");
     if(!process.env.NODE_EXTRA_CA_CERTS)
