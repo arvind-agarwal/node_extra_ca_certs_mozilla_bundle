@@ -14,8 +14,6 @@ Or the site does not correctly install the intermediate certificates.
 
 Typically you encounter these at the last minute, and usually, the server is not in your control; hence you cannot modify the certificate installation, and it is challenging to change code at that time.
 
-This module is designed to make all SSL sites that work with Mozilla compatible with nodejs.
-
 ### Node js added an Environment variable to address this issue:
 
 ### [NODE_EXTRA_CA_CERTS](https://nodejs.org/api/cli.html#cli_node_extra_ca_certs_file)
@@ -25,7 +23,9 @@ When set, the well known "root" CAs (like VeriSign) will be extended with the ex
 
 However, it is cumbersome to create the PEM file for missing certificates manually and it can be a security issue if untrusted certificates are accidentally included.
 
-### This module downloads and creates a PEM file from https://www.ccadb.org/resources (Common CA Database) used by Mozilla 
+#### This module is designed to make all SSL sites that work with Mozilla Browser compatible with your nodejs script.
+
+#### It downloads and creates a PEM file from https://www.ccadb.org/resources (Common CA Database) used by Mozilla 
 * https://wiki.mozilla.org/CA/Included_Certificates
 * https://wiki.mozilla.org/CA/Intermediate_Certificates
 
@@ -57,6 +57,7 @@ npx cross-env NODE_EXTRA_CA_CERTS=node_modules/node_extra_ca_certs_mozilla_bundl
 This is useful when you want to run as root or listen on privilege port like 80. Since in those situations the above environment variable does not work.
 ```
 const fs = require('fs');
+const https = require('https');
 https.globalAgent.options.ca = fs.readFileSync('node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem');
 ```
 
@@ -65,6 +66,7 @@ If you want to include your custom certificate and still want to connect to othe
 
 ```
 const fs = require('fs');
+const https = require('https');
 https.globalAgent.options.ca = yourCertificatePEMcontent + fs.readFileSync('node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem');
 ```
 
