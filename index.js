@@ -16,10 +16,10 @@ async function appendPEMFromUrl(url, individualFiles=false) {
         let certPem = entry['PEM Info'].slice(1, -1);
         const commonName = entry['Common Name or Certificate Name'] || entry['Certificate Subject Common Name'];
         const serialNumber = entry['Certificate Serial Number'];
-        const issureOrg = entry['Certificate Issuer Organization']
+        const issuerOrg = entry['Certificate Issuer Organization']
 
         // Remove empty lines in certPem some certificates were coming with blank line e.g.
-        // Shoper SSL
+        // Shopper SSL
         // Unizeto Technologies S.A.
         // 3ABFBB7CED7B8FFFD9862B934C02AF96
         certPem = certPem.replace(/-----BEGIN CERTIFICATE-----\n\n/gm,"-----BEGIN CERTIFICATE-----\n");
@@ -33,9 +33,9 @@ async function appendPEMFromUrl(url, individualFiles=false) {
         process.stdout.write(`Processing ${commonName}`.padEnd(80)+'\r');
         if(individualFiles) {
             const fileName = `${commonName.replace(/\W/g, '')}_${i}.pem`;
-            fs.writeFileSync(fileName, `${commonName}\n${issureOrg}\n${serialNumber}\n${certPem}\n\n`);
+            fs.writeFileSync(fileName, `${commonName}\n${issuerOrg}\n${serialNumber}\n${certPem}\n\n`);
         }
-        output.push(`${commonName}\n${issureOrg}\n${serialNumber}\n${certPem}\n\n`);
+        output.push(`${commonName}\n${issuerOrg}\n${serialNumber}\n${certPem}\n\n`);
     }
     process.stdout.write(`All certificates processed`.padEnd(80)+'\r');
     console.log(`\nURL ${url} processed\n\n`);
@@ -66,7 +66,7 @@ async function build() {
     console.log('Intermediate and Root certificates bundle at ca_bundle/ca_intermediate_root_bundle.pem');
     console.log();
     console.log('To run your Node script with the bundled certificate run:')
-    console.log('NODE_EXTRA_CA_CERTS=node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem node your_script.js');
+    console.log('NODE_EXTRA_CA_CERTS=node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem node your_script.js\n');
 }
 
 build();
