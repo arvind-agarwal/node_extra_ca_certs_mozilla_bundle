@@ -1,6 +1,6 @@
 {
   "name": "node_extra_ca_certs_mozilla_bundle",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
