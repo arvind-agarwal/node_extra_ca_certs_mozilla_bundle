@@ -1,14 +1,14 @@
 const csvtojson = require('csvtojson');
 const fs = require('fs');
-const request = require('request-promise-native');
+const request = require('axios');
 
 
 
 async function appendPEMFromUrl(url, individualFiles=false) {
     console.log(`Downloading from URL ${url}`);
-    const data = await request.get(url);
+    const response = await request.get(url, { responseType: 'blob'});
     console.log('Parsing csv file');
-    const jsonData = await csvtojson().fromString(data);
+    const jsonData = await csvtojson().fromString(response.data);
     const output = []
     let i=0;
     for (const entry of jsonData) {
