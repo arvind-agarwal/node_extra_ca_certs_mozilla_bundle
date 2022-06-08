@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_EXTRA_CA_CERTS=dist/ca_intermediate_root_bundle.pem node test_bundle.js",
+    "test": "cross-env NODE_EXTRA_CA_CERTS=ca_bundle/ca_intermediate_root_bundle.pem node test_bundle.js",
     "start": "node index.js",
     "install": "node index.js"
   },
