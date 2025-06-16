@@ -2,17 +2,21 @@
 
 If you are trying to connect to a secure website via nodejs. Although, the site may work in the browser, you may run into errors such as
  
-[CERT_UNTRUSTED](https://stackoverflow.com/questions/41390965/cert-untrusted-error-when-execute-https-request)
-
-[UNABLE_TO_VERIFY_LEAF_SIGNATURE](https://stackoverflow.com/questions/20082893/unable-to-verify-leaf-signature) 
-
-[Unable to verify the first certificate](https://stackoverflow.com/questions/31673587/error-unable-to-verify-the-first-certificate-in-nodejs)
+* [CERT_UNTRUSTED](https://stackoverflow.com/questions/41390965/cert-untrusted-error-when-execute-https-request)
+* [UNABLE_TO_VERIFY_LEAF_SIGNATURE](https://stackoverflow.com/questions/20082893/unable-to-verify-leaf-signature) 
+* [Unable to verify the first certificate](https://stackoverflow.com/questions/31673587/error-unable-to-verify-the-first-certificate-in-nodejs)
 
 It may be due to a couple of reasons.
 The Root CA certificate is missing in nodejs
 Or the site does not correctly install the intermediate certificates.
 
 Typically you encounter these at the last minute, and usually, the server is not in your control; hence you cannot modify the certificate installation, and it is challenging to change code at that time.
+
+Another possible error might be due to newer environments throwing an exception if certificates using a weak digest (SHA1WithRSA) are used:
+
+* [CA signature digest algorithm too weak](https://serverfault.com/questions/1143995/tls-1-0-broken-with-newer-debian-openssl)
+
+Instead of lowering the SECLEVEL from 1 to 0, there are also files generated that exclude certificates that use this weak digest.
 
 ### Node js added an Environment variable to address this issue:
 
@@ -29,10 +33,17 @@ However, it is cumbersome to create the PEM file for missing certificates manual
 * https://wiki.mozilla.org/CA/Included_Certificates
 * https://wiki.mozilla.org/CA/Intermediate_Certificates
 
-It generates three different bundles that can be used based on your needs:
-* Intermediate certificates only bundle `ca_intermediate_bundle.pem`
-* Root only certificates bundle `ca_root_bundle.pem`
-* Intermediate and Root certificates bundle `ca_intermediate_root_bundle.pem`
+It generates six different bundles that can be used based on your needs:
+
+#### All intermediate/root certificates
+* Intermediate certificates only bundle: `ca_intermediate_bundle.pem`
+* Root only certificates bundle: `ca_root_bundle.pem`
+* Intermediate and Root certificates bundle: `ca_intermediate_root_bundle.pem`
+
+#### Only intermediate/root certificates with strong digests
+* Intermediate certificates only bundle (no weak digests): `ca_intermediate_bundle.pem`
+* Root only certificates bundle (no weak digests): `ca_root_bundle.pem`
+* Intermediate and Root certificates bundle (no weak digests): `ca_intermediate_root_bundle.pem`
 
 You can use any of the above bundles with NODE_EXTRA_CA_CERTS.
 
@@ -45,12 +56,12 @@ During the installation of the module, it downloads the latest certificates from
 You can launch your script while using the above certificates using: 
 
 ```
-NODE_EXTRA_CA_CERTS=node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem node your_script.js
+NODE_EXTRA_CA_CERTS=node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_strong_intermediate_root_bundle.pem node your_script.js
 ```
 
 for Windows use:
 ```
-npx cross-env NODE_EXTRA_CA_CERTS=node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem node your_script.js
+npx cross-env NODE_EXTRA_CA_CERTS=node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_strong_intermediate_root_bundle.pem node your_script.js
 ```
 
 ### To use the PEM file in code
@@ -58,7 +69,7 @@ This is useful when you want to run as root or listen on privilege port like 80.
 ```
 const fs = require('fs');
 const https = require('https');
-https.globalAgent.options.ca = fs.readFileSync('node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem');
+https.globalAgent.options.ca = fs.readFileSync('node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_strong_intermediate_root_bundle.pem');
 ```
 
 ### To include your custom PEM certificates in code along with this file
@@ -67,6 +78,6 @@ If you want to include your custom certificate and still want to connect to othe
 ```
 const fs = require('fs');
 const https = require('https');
-https.globalAgent.options.ca = yourCertificatePEMcontent + fs.readFileSync('node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_intermediate_root_bundle.pem');
+https.globalAgent.options.ca = yourCertificatePEMcontent + fs.readFileSync('node_modules/node_extra_ca_certs_mozilla_bundle/ca_bundle/ca_strong_intermediate_root_bundle.pem');
 ```
 
