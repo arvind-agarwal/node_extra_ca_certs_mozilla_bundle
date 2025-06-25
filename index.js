@@ -67,10 +67,10 @@ async function build() {
     fs.writeFileSync('ca_bundle/ca_intermediate_root_bundle.pem', ca_intermediate_bundle + ca_root_bundle);
 
     // Add intermediate certificates, strong hashes only:
-    const ca_strong_intermediate_bundle = await appendPEMFromUrl('https://ccadb-public.secure.force.com/mozilla/PublicAllIntermediateCertsWithPEMCSV', false, true);
+    const ca_strong_intermediate_bundle = await appendPEMFromUrl('https://ccadb.my.salesforce-sites.com/mozilla/PublicAllIntermediateCertsWithPEMCSV', false, true);
 
     // Add root certificates, strong hashes only:
-    const ca_strong_root_bundle = await appendPEMFromUrl('https://ccadb-public.secure.force.com/mozilla/IncludedCACertificateReportPEMCSV', false, true);
+    const ca_strong_root_bundle = await appendPEMFromUrl('https://ccadb.my.salesforce-sites.com/mozilla/IncludedCACertificateReportPEMCSV', false, true);
 
     fs.writeFileSync('ca_bundle/ca_strong_intermediate_bundle.pem', ca_strong_intermediate_bundle);
     fs.writeFileSync('ca_bundle/ca_strong_root_bundle.pem', ca_strong_root_bundle);
